@@ -1,37 +1,31 @@
-[org 0x7c00]
+org 0x7c00
+bits 16
 
-
-readChar:
-	mov ah, 0
-	int 0x16
-
-printChar: 
+boot:
+	mov ah, 0x02
+	mov al, 0x01
+	mov ch, 0x00
+	mov cl, 0x02
+	mov dh, 0x00
+	mov dl, 0x80
+	mov bx, 0x1000
+	mov es, bx
+	int 0x13
+	;jc disk_error
 	mov ah, 0x0e
-	cmp al, 0
-	je end
+	mov al, "$"
+	mov bh, 0
 	int 0x10
-	
-	
-	
-mov bx, osWelcome
-	
+	jmp 0x1000:0x00
 
-printString: 
+
+disk_error:
 	mov ah, 0x0e
-	mov al, [bx]
-	cmp al, 0
-	je end
+	mov al, "!"
+	mov bh, 0
 	int 0x10
-	inc bx
-	jmp printString
+	hlt
 
-end:
-
-
-jmp $
-
-osWelcome:
-	db  " Welcome to Njokom Operating System !", 0
 
 
 
