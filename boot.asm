@@ -1,8 +1,6 @@
 [org 0x7c00]
 
 
-
-
 readChar:
 	mov ah, 0
 	int 0x16
@@ -33,11 +31,10 @@ end:
 jmp $
 
 osWelcome:
-	db 0ah, " Welcome to Njokom Operating System", 0
+	db  " Welcome to Njokom Operating System !", 0
 
 
 
 times 510-($-$$) db 0
 
 db 0x55, 0xaa
-
