@@ -2,16 +2,19 @@ org 0x7c00
 bits 16
 	
 
-
 readChar:
 	mov ah, 0
 	int 0x16
+	cmp al, 0
+	jmp printChar
+	jmp readChar
 
 printChar: 
 	mov ah, 0x0e
 	cmp al, 0
-	je end
+	je printString
 	int 0x10
+	jmp readChar
 	
 	
 	
@@ -28,12 +31,16 @@ printString:
 	jmp printString
 
 
-end:
 
+
+end:
 
 
 osWelcome:
 	db  " Welcome to Njokom Operating System !", 0
+
+hardwareData:
+	db "Test"
 
 
 times 510-($-$$) db 0
